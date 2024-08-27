@@ -11,7 +11,7 @@ from utils.utils import letterbox_image, preprocess_input, cvtColor, show_config
 # ---------------------------------------------------#
 #   使用自己训练好的模型预测需要修改model_path参数
 # ---------------------------------------------------#
-class Siamese(object):
+class Siamese:
     _defaults = {
         # -----------------------------------------------------#
         #   使用自己训练好的模型进行预测一定要修改model_path
@@ -45,6 +45,10 @@ class Siamese(object):
     #   初始化Siamese
     # ---------------------------------------------------#
     def __init__(self, **kwargs):
+        self.net = None
+        self.cuda = None
+        self.input_shape = None
+        self.model_path = None
         self.__dict__.update(self._defaults)
         for name, value in kwargs.items():
             setattr(self, name, value)
