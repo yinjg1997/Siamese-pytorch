@@ -55,7 +55,7 @@ def load_dataset(dataset_path, train_own_data, train_ratio):
     shuffle_index = np.arange(len(lines), dtype=np.int32)
     shuffle(shuffle_index)
     random.seed(None)
-    lines = np.array(lines, dtype=np.object)
+    lines = np.array(lines, dtype=object)
     labels = np.array(labels)
     lines = lines[shuffle_index]
     labels = labels[shuffle_index]

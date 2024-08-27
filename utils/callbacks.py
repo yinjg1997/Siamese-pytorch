@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from torch.utils.tensorboard import SummaryWriter
 
 
-class LossHistory():
+class LossHistory:
     def __init__(self, log_dir, model, input_shape):
         time_str = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
         self.log_dir = os.path.join(log_dir, "loss_" + str(time_str))

@@ -12,49 +12,36 @@ from utils.utils import letterbox_image, preprocess_input, cvtColor, show_config
 #   使用自己训练好的模型预测需要修改model_path参数
 # ---------------------------------------------------#
 class Siamese:
-    _defaults = {
+    # ---------------------------------------------------#
+    #   初始化Siamese
+    # ---------------------------------------------------#
+    def __init__(self, model_path: str = 'model_data/Omniglot_vgg.pth', input_shape: list = [105, 105],
+                 is_letterbox_image: bool = False,
+                 cuda: bool = True, ):
+
         # -----------------------------------------------------#
         #   使用自己训练好的模型进行预测一定要修改model_path
         #   model_path指向logs文件夹下的权值文件
         # -----------------------------------------------------#
-        "model_path": 'model_data/Omniglot_vgg.pth',
+        self.model_path = model_path
         # -----------------------------------------------------#
         #   输入图片的大小。
         # -----------------------------------------------------#
-        "input_shape": [105, 105],
+        self.input_shape = input_shape
         # --------------------------------------------------------------------#
         #   该变量用于控制是否使用letterbox_image对输入图像进行不失真的resize
         #   否则对图像进行CenterCrop
         # --------------------------------------------------------------------#
-        "letterbox_image": False,
+        self.is_letterbox_image = is_letterbox_image
         # -------------------------------#
         #   是否使用Cuda
         #   没有GPU可以设置成False
         # -------------------------------#
-        "cuda": True
-    }
+        self.cuda = cuda
 
-    @classmethod
-    def get_defaults(cls, n):
-        if n in cls._defaults:
-            return cls._defaults[n]
-        else:
-            return "Unrecognized attribute name '" + n + "'"
-
-    # ---------------------------------------------------#
-    #   初始化Siamese
-    # ---------------------------------------------------#
-    def __init__(self, **kwargs):
         self.net = None
-        self.cuda = None
-        self.input_shape = None
-        self.model_path = None
-        self.__dict__.update(self._defaults)
-        for name, value in kwargs.items():
-            setattr(self, name, value)
-        self.generate()
 
-        show_config(**self._defaults)
+        self.generate()
 
     # ---------------------------------------------------#
     #   载入模型

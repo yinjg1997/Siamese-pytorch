@@ -29,7 +29,7 @@ class Siamese(nn.Module):
         self.fully_connect2 = torch.nn.Linear(512, 1)
 
     def forward(self, x):
-        x1, x2 = x
+        x1, x2 = x[0], x[1]
         # ------------------------------------------#
         #   我们将两个输入传入到主干特征提取网络
         # ------------------------------------------#
