@@ -110,6 +110,7 @@ class ImageNetPolicy(object):
         >>>     ImageNetPolicy(),
         >>>     transforms.ToTensor()])
     """
+
     def __init__(self, fillcolor=(128, 128, 128)):
         self.policies = [
             SubPolicy(0.4, "posterize", 8, 0.6, "rotate", 9, fillcolor),
@@ -149,6 +150,7 @@ class ImageNetPolicy(object):
 
     def __repr__(self):
         return "AutoAugment ImageNet Policy"
+
 
 class SubPolicy(object):
     def __init__(self, p1, operation1, magnitude_idx1, p2, operation2, magnitude_idx2, fillcolor=(128, 128, 128)):
@@ -200,6 +202,7 @@ class SubPolicy(object):
             img = self.operation2(img, self.magnitude2)
         return img
 
+
 def crop(img, i, j, h, w):
     """Crop the given PIL Image.
 
@@ -214,6 +217,7 @@ def crop(img, i, j, h, w):
         PIL Image: Cropped image.
     """
     return img.crop((j, i, j + w, i + h))
+
 
 def resize(img, size, interpolation=Image.BILINEAR):
     r"""Resize the input PIL Image to the given size.
@@ -246,6 +250,7 @@ def resize(img, size, interpolation=Image.BILINEAR):
     else:
         return img.resize(size[::-1], interpolation)
 
+
 def center_crop(img, output_size):
     if isinstance(output_size, numbers.Number):
         output_size = (int(output_size), int(output_size))
@@ -254,6 +259,7 @@ def center_crop(img, output_size):
     i = int(round((h - th) / 2.))
     j = int(round((w - tw) / 2.))
     return crop(img, i, j, th, tw)
+
 
 def resized_crop(img, i, j, h, w, size, interpolation=Image.BILINEAR):
     """Crop the given PIL Image and resize it to desired size.
@@ -276,6 +282,7 @@ def resized_crop(img, i, j, h, w, size, interpolation=Image.BILINEAR):
     img = resize(img, size, interpolation)
     return img
 
+
 class Resize(object):
     """Resize the input PIL Image to the given size.
 
@@ -290,8 +297,8 @@ class Resize(object):
     """
 
     def __init__(self, size, interpolation=Image.BILINEAR):
-        self.size           = size
-        self.interpolation  = interpolation
+        self.size = size
+        self.interpolation = interpolation
 
     def __call__(self, img):
         """
@@ -302,7 +309,8 @@ class Resize(object):
             PIL Image: Rescaled image.
         """
         return resize(img, self.size, self.interpolation)
-    
+
+
 class CenterCrop(object):
     """Crops the given PIL Image at the center.
 
@@ -324,6 +332,7 @@ class CenterCrop(object):
             PIL Image: Cropped image.
         """
         return center_crop(img, self.size)
+
 
 class RandomResizedCrop(object):
     """Crop the given PIL Image to random size and aspect ratio.

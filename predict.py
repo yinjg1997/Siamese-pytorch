@@ -5,7 +5,7 @@ from siamese import Siamese
 
 if __name__ == "__main__":
     model = Siamese()
-        
+
     while True:
         image_1 = input('Input image_1 filename:')
         try:
@@ -20,5 +20,5 @@ if __name__ == "__main__":
         except:
             print('Image_2 Open Error! Try again!')
             continue
-        probability = model.detect_image(image_1,image_2)
+        probability = model.detect_image(image_1, image_2)
         print(probability)

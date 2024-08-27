@@ -3,6 +3,7 @@ import os
 
 import torch
 import matplotlib
+
 matplotlib.use('Agg')
 import scipy.signal
 from matplotlib import pyplot as plt
@@ -11,15 +12,15 @@ from torch.utils.tensorboard import SummaryWriter
 
 class LossHistory():
     def __init__(self, log_dir, model, input_shape):
-        time_str        = datetime.datetime.strftime(datetime.datetime.now(),'%Y_%m_%d_%H_%M_%S')
-        self.log_dir    = os.path.join(log_dir, "loss_" + str(time_str))
-        self.losses     = []
-        self.val_loss   = []
-        
+        time_str = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
+        self.log_dir = os.path.join(log_dir, "loss_" + str(time_str))
+        self.losses = []
+        self.val_loss = []
+
         os.makedirs(self.log_dir)
-        self.writer     = SummaryWriter(self.log_dir)
+        self.writer = SummaryWriter(self.log_dir)
         try:
-            dummy_input     = torch.randn(2, 2, 3, input_shape[0], input_shape[1])
+            dummy_input = torch.randn(2, 2, 3, input_shape[0], input_shape[1])
             self.writer.add_graph(model, dummy_input)
         except:
             pass
@@ -46,16 +47,18 @@ class LossHistory():
         iters = range(len(self.losses))
 
         plt.figure()
-        plt.plot(iters, self.losses, 'red', linewidth = 2, label='train loss')
-        plt.plot(iters, self.val_loss, 'coral', linewidth = 2, label='val loss')
+        plt.plot(iters, self.losses, 'red', linewidth=2, label='train loss')
+        plt.plot(iters, self.val_loss, 'coral', linewidth=2, label='val loss')
         try:
             if len(self.losses) < 25:
                 num = 5
             else:
                 num = 15
-            
-            plt.plot(iters, scipy.signal.savgol_filter(self.losses, num, 3), 'green', linestyle = '--', linewidth = 2, label='smooth train loss')
-            plt.plot(iters, scipy.signal.savgol_filter(self.val_loss, num, 3), '#8B4513', linestyle = '--', linewidth = 2, label='smooth val loss')
+
+            plt.plot(iters, scipy.signal.savgol_filter(self.losses, num, 3), 'green', linestyle='--', linewidth=2,
+                     label='smooth train loss')
+            plt.plot(iters, scipy.signal.savgol_filter(self.val_loss, num, 3), '#8B4513', linestyle='--', linewidth=2,
+                     label='smooth val loss')
         except:
             pass
 
